@@ -1,54 +1,48 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 
-#include "MyPortal.h"
-
-#include <Runtime/Engine/Classes/Components/StaticMeshComponent.h>
+#include "MyLava.h"
 #include <Runtime/Engine/Classes/Components/BoxComponent.h>
 #include <Kismet/GameplayStatics.h>
-
 #include "MyPlayerCharacter.h"
 
 // Sets default values
-AMyPortal::AMyPortal()
+AMyLava::AMyLava()
 {
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
 	BoxCollision = CreateDefaultSubobject<UBoxComponent>(TEXT("Box Collision"));
-	BoxCollision->SetBoxExtent(FVector(10.0f, 10.0f, 20.0f));
-
+	BoxCollision->SetBoxExtent(FVector(20.0f, 20.0f, 20.0f));
 	RootComponent = BoxCollision;
+
 }
 
 // Called when the game starts or when spawned
-void AMyPortal::BeginPlay()
+void AMyLava::BeginPlay()
 {
 	Super::BeginPlay();
 
-	BoxCollision->OnComponentBeginOverlap.AddDynamic(this, &AMyPortal::OnOverlapBegin);
+	BoxCollision->OnComponentBeginOverlap.AddDynamic(this, &AMyLava::OnOverlapBegin);
+	PlayerCharacter_Ref = Cast<AMyPlayerCharacter>(UGameplayStatics::GetPlayerController(GetWorld(), 0));
 	
 }
 
 // Called every frame
-void AMyPortal::Tick(float DeltaTime)
+void AMyLava::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
 }
 
-void AMyPortal::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, 
+void AMyLava::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, 
 	UPrimitiveComponent* OtherComp, int32 OtherBodyIndexType, 
 	bool bFromSweep, const FHitResult& SweepResult)
 {
-	AMyPlayerCharacter* MyPlayerCharacter = Cast<AMyPlayerCharacter>(OtherActor);
-
-	if (OtherActor->ActorHasTag("Player") && MyPlayerCharacter->ObtainedKey == true)
+	if (OtherActor->ActorHasTag("Player"))
 	{
-		UGameplayStatics::OpenLevel(GetWorld(), "WinScreen");
+		UGameplayStatics::OpenLevel(GetWorld(), "LoseScreen");
 	}
-
 }
-
 
 

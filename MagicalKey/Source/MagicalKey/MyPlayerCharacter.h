@@ -22,6 +22,8 @@ public:
 	// Sets default values for this character's properties
 	AMyPlayerCharacter();
 
+	bool ObtainedKey;
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;

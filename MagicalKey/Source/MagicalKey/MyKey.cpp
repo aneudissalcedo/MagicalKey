@@ -5,6 +5,7 @@
 
 #include <Runtime/Engine/Classes/Components/StaticMeshComponent.h>
 #include <Runtime/Engine/Classes/Components/BoxComponent.h>
+
 #include "MyPlayerCharacter.h"
 
 // Sets default values
@@ -39,13 +40,15 @@ void AMyKey::Tick(float DeltaTime)
 
 }
 
-void AMyKey::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, 
+void AMyKey::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor,
 	UPrimitiveComponent* OtherComp, int32 OtherBodyIndexType, 
 	bool bFromSweep, const FHitResult& SweepResult)
 {
 	if (OtherActor->ActorHasTag("Player"))
 	{
 		AMyPlayerCharacter* MyPlayerCharacter = Cast<AMyPlayerCharacter>(OtherActor);
+
+		MyPlayerCharacter->ObtainedKey = true;
 
 		FTimerHandle TimerHandle;
 		GetWorldTimerManager().SetTimer(TimerHandle, this, &AMyKey::DestroyKey, 0.1f, false);
@@ -56,6 +59,3 @@ void AMyKey::DestroyKey()
 {
 	this->Destroy();
 }
-
-
-

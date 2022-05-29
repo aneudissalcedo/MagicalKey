@@ -4,21 +4,22 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
-#include "MyPortal.generated.h"
+#include "MyLava.generated.h"
 
 class UBoxComponent;
+class AMyPlayerCharacter;
 
 using namespace UP;
 using namespace UF;
 
 UCLASS()
-class MAGICALKEY_API AMyPortal : public AActor
+class MAGICALKEY_API AMyLava : public AActor
 {
 	GENERATED_BODY()
 	
 public:	
 	// Sets default values for this actor's properties
-	AMyPortal();
+	AMyLava();
 
 protected:
 	// Called when the game starts or when spawned
@@ -26,11 +27,13 @@ protected:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	UBoxComponent* BoxCollision;
-
+	
 	UFUNCTION()
 		void OnOverlapBegin(class UPrimitiveComponent* OverlappedComp, class AActor* OtherActor,
-			class UPrimitiveComponent* OtherComp, int32 OtherBodyIndexType, 
-			bool bFromSweep, const FHitResult& SweepResult);
+			class UPrimitiveComponent* OtherComp, int32 OtherBodyIndexType, bool bFromSweep,
+			const FHitResult& SweepResult);
+
+	AMyPlayerCharacter* PlayerCharacter_Ref;
 
 public:	
 	// Called every frame

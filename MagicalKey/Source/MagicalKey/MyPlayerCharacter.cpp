@@ -53,6 +53,10 @@ void AMyPlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputC
 	PlayerInputComponent->BindAction("Jump", IE_Pressed,this, &ACharacter::Jump);
 	PlayerInputComponent->BindAction("Jump", IE_Released, this, &ACharacter::StopJumping);
 
+	GetCharacterMovement()->JumpZVelocity = 300.0f;
+	GetCharacterMovement()->AirControl = 0.05f;
+	GetCharacterMovement()->MaxWalkSpeed = 300.0f;
+
 }
 
 void AMyPlayerCharacter::MoveForward(float AxisValue)
